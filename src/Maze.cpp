@@ -35,8 +35,65 @@ more parameters .
 
 #include<stdlib.h>
 
+int path_recur(int *, int, int, int, int, int, int, int[][30]);
 
 int path_exists(int *maze, int rows, int columns, int x1, int y1, int x2, int y2)
 {
-	return 1;
+	int ans, memory[30][30] = { 0 };
+	if (rows <= x1 || rows <= x2 || columns <= y1 || columns <= y2 || rows <= 0 || columns <= 0)
+	{
+		return 0;
+	}
+	ans = path_recur(maze, rows, columns, x1, y1, x2, y2, memory);
+	return ans;
 }
+int path_recur(int *maze, int rows, int columns, int x1, int y1, int x2, int y2, int memory[][30])
+{
+	int x;
+	if (rows <= x1 || (x1<0) || columns <= y1 || (y1<0))
+	{
+		return 0;
+	}
+	if (memory[x1][y1] != 0)
+	{
+		return 0;
+	}
+	if (*((maze + x1*columns) + y1) == 0)
+	{
+		return 0;
+	}
+	if (x2 == x1&&y2 == y1)
+	{
+		return 1;
+	}
+	memory[x1][y1] = 2;
+	x1++;
+	x = path_recur(maze, rows, columns, x1, y1, x2, y2, memory);
+	if (x == 1)
+	{
+		return 1;
+	}
+	x1--;
+	y1++;
+	x = path_recur(maze, rows, columns, x1, y1, x2, y2, memory);
+	if (x == 1)
+	{
+		return 1;
+	}
+	y1--;
+	x1 = x1 - 1;
+	x = path_recur(maze, rows, columns, x1, y1, x2, y2, memory);
+	if (x == 1)
+	{
+		return 1;
+	}
+	x1++;
+	y1 = y1 - 1;
+	x = path_recur(maze, rows, columns, x1, y1, x2, y2, memory);
+	if (x == 1)
+	{
+		return 1;
+	}
+	return 0;
+}
+
