@@ -23,8 +23,22 @@
 */
 #include "stdafx.h"
 
-
+int a[26];
 int get_steps(int s)
 {
-	return 0;
+
+	if (s <= 1)
+	{
+		return 1;
+	}
+	if (a[s] != 0)
+	{
+		return a[s];
+	}
+	else
+	{
+		a[s] = get_steps(s - 1) + get_steps(s - 2);
+		return a[s];
+	}
 }
+
