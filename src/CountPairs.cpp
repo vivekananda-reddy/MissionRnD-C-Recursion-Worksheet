@@ -24,13 +24,37 @@ NOTE : Donot use any Global Variables
 
 //You can use this function ,for the actual recursion .Think of similar functions for all other problems.
 int count_pairs(char *str, int len, int start, int end){
-	return 0;
+
+	int count = 0;
+	if (end >= len)
+	{
+		return 0;
+	}
+	if (str[start] == str[end])
+	{
+		count++;
+	}
+	start++;
+	end++;
+	count = count + count_pairs(str, len, start, end);
+
+	return count;
 }
 
-int count_pairs_wrapper(char *str,int len){
-    //Wrapper function which might call a recursive function ,which might take extra parameters .
-	return 0;
+int count_pairs_wrapper(char *str, int len){
+	//Wrapper function which might call a recursive function ,which might take extra parameters .
+	int ans = 0, start = 0, end = 2;
+
+	ans = count_pairs(str, len, start, end);
+
+
+	return ans;
 
 }
+
+
+
+
+
 
 
