@@ -34,7 +34,61 @@ Note : Check the function Parameters ,Its a double pointer .
 #include "stdafx.h"
 #include<stdlib.h>
 
+void spiralrecurr1(int**, int, int,int,int*,int);
 int *spiral(int rows, int columns, int **input_array)
 {
-	return NULL;
+	if (input_array==NULL||rows<1||columns<1)
+		return NULL;
+	int *a = (int*)malloc(sizeof(int)*rows*columns);
+	spiralrecurr1(input_array,rows,columns,0,a,0);
+	return a;
+}
+
+void spiralrecurr1(int **input_array, int rows, int columns,int start_index, int *a,int index)
+{
+	int i;
+	if (index>=rows*columns)
+	{
+		return;
+	}
+	for (i =start_index; i < columns-start_index; i++)
+	{
+		a[index] = input_array[start_index][i];
+		index++;
+	}
+	if (index >= rows*columns)
+	{
+		return;
+	}
+	for (i = start_index + 1; i < rows-start_index; i++)
+	{
+		a[index] = input_array[i][columns-start_index-1];
+		index++;
+	}
+	if (index >= rows*columns)
+	{
+		return;
+	}
+	for (i = columns - 2-start_index; i >= start_index; i--)
+	{
+		a[index] = input_array[rows - 1-start_index][i];
+		index++;
+	}
+	if (index >= rows*columns)
+	{
+		return;
+	}
+	for (i = rows - 2-start_index; i > start_index; i--)
+	{
+		a[index] = input_array[i][start_index];
+		index++;
+	}
+	if (index >= rows*columns)
+	{
+		return;
+	}
+
+	start_index++;
+	spiralrecurr1(input_array, rows, columns, start_index, a, index);
+	return;
 }
