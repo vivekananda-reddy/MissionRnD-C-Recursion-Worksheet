@@ -43,6 +43,65 @@ P.S: The Above Problem is just a modified version of a popular BackTracking prob
 */
 
 #include "stdafx.h"
+int sniperrecurr(int *, int, int, int, int*, int*);
 int solve_nsnipers(int *battlefield, int n){
-	return 0;
+	int ans, rows[100] = { 0 }, diagonals[100] = { 0 }, i;
+	if (battlefield == NULL || n<4)
+		return 0;
+	for (i = 0; i < n; i++)
+	{
+		ans = sniperrecurr(battlefield, n, i, 0, rows, diagonals);
+		if (ans != -1)
+		{
+			break;
+		}
+		diagonals[i - 0 + n]--;
+		rows[i] = 0;
+		*(battlefield + i*n + 0) = 0;
+	}
+
+
+	return ans;
 }
+
+int sniperrecurr(int *battlefield, int n, int i, int j, int *rows, int *diagonals)
+{
+	int ans;
+	if (i >= n || j >= n)
+	{
+		return 0;
+	}
+	if (rows[i] != 0)
+	{
+		return 0;
+	}
+	if (diagonals[i - j + n] != 0)
+	{
+		return 0;
+	}
+	*(battlefield + i*n + j) = 1;
+	diagonals[i - j + n]++;
+	rows[i] = 1;
+	j++;
+	if (j == n)
+	{
+		return 1;
+	}
+	for (i = 0; i < n; i++)
+	{
+		ans = sniperrecurr(battlefield, n, i, j, rows, diagonals);
+		if (ans == 1)
+		{
+			return 1;
+		}
+		else if (ans == -1)
+		{
+			diagonals[i - j + n]--;
+			rows[i] = 0;
+			*(battlefield + i*n + j) = 0;
+		}
+	}
+
+	return -1;
+}
+
